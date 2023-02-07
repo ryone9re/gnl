@@ -6,7 +6,7 @@
 /*   By: rkurimot <rkurimot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 06:26:58 by rkurimot          #+#    #+#             */
-/*   Updated: 2023/02/07 12:37:29 by rkurimot         ###   ########.fr       */
+/*   Updated: 2023/02/07 13:31:31 by rkurimot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,4 +71,11 @@ size_t	has_break(char *str)
 		i++;
 	}
 	return (0);
+}
+
+void	*sfree(void *p)
+{
+	if (p)
+		free(p);
+	return (NULL);
 }

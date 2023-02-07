@@ -6,7 +6,7 @@
 /*   By: rkurimot <rkurimot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 04:57:02 by rkurimot          #+#    #+#             */
-/*   Updated: 2023/02/07 12:51:06 by rkurimot         ###   ########.fr       */
+/*   Updated: 2023/02/07 13:32:21 by rkurimot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	init(char *buf, char *cur, size_t start, size_t nbytes)
 	if (!cur)
 	{
 		while (i < nbytes)
-			buf[i] = '\0';
+			buf[i++] = '\0';
 		return ;
 	}
 	clen = ft_strlen(cur);
@@ -54,27 +54,6 @@ void	init(char *buf, char *cur, size_t start, size_t nbytes)
 	}
 	while (i < nbytes)
 		buf[i++] = '\0';
-}
-
-char	*read_append(char *cur, int fd, char *buf, size_t nbytes)
-{
-	ssize_t	rs;
-	char	*ret;
-
-	rs = read(fd, buf, nbytes);
-	if (rs < 0)
-	{
-		if (cur)
-			free(cur);
-		return (NULL);
-	}
-	if (rs == 0)
-		return (cur);
-	ret = append(cur, buf);
-	if (!ret)
-		return (NULL);
-	init(buf, NULL, 0, nbytes);
-	return (ret);
 }
 
 char	*cp_until_nl(char *cur)
@@ -99,17 +78,25 @@ char	*cp_until_nl(char *cur)
 char	*get_next_line(int fd)
 {
 	char		*cur;
+	ssize_t		rs;
 	static char	buf[BUFFER_SIZE + 1] = {};
 
 	cur = NULL;
 	if (buf[0])
 		cur = append(NULL, buf);
-	else
-		cur = read_append(NULL, fd, buf, BUFFER_SIZE);
-	while (cur && !has_break(cur))
-		cur = read_append(cur, fd, buf, BUFFER_SIZE);
-	if (!cur)
-		return (NULL);
+	while (1)
+	{
+		if (has_break(cur))
+			break ;
+		rs = read(fd, buf, BUFFER_SIZE);
+		if (rs == 0)
+			return (cur);
+		if (rs < 0)
+			return (sfree(cur));
+		cur = append(cur, buf);
+		if (!cur)
+			return (NULL);
+	}
 	init(buf, cur, has_break(cur), BUFFER_SIZE);
 	return (cp_until_nl(cur));
 }

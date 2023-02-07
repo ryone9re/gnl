@@ -6,7 +6,7 @@
 /*   By: rkurimot <rkurimot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 12:36:53 by rkurimot          #+#    #+#             */
-/*   Updated: 2023/02/07 12:37:09 by rkurimot         ###   ########.fr       */
+/*   Updated: 2023/02/07 13:31:05 by rkurimot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
 
 void	init(char *buf, char *cur, size_t start, size_t nbytes);
 char	*append(char *fwd, char *bck);
-char	*read_append(char *cur, int fd, char *buf, size_t nbytes);
 char	*cp_until_nl(char *cur);
 char	*get_next_line(int fd);
 
@@ -32,5 +31,6 @@ void	*ft_calloc(size_t count, size_t size);
 size_t	ft_strlen(char *str);
 size_t	ft_strsncpy(char *dest, char *src, size_t start, size_t size);
 size_t	has_break(char *str);
+void	*sfree(void *p);
 
 #endif /* GET_NEXT_LINE_H */
