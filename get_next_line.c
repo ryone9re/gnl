@@ -6,7 +6,7 @@
 /*   By: rkurimot <rkurimot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 04:57:02 by rkurimot          #+#    #+#             */
-/*   Updated: 2023/02/07 13:32:21 by rkurimot         ###   ########.fr       */
+/*   Updated: 2023/02/07 13:47:08 by rkurimot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,10 @@ char	*get_next_line(int fd)
 			break ;
 		rs = read(fd, buf, BUFFER_SIZE);
 		if (rs == 0)
+		{
+			init(buf, NULL, 0, BUFFER_SIZE);
 			return (cur);
+		}
 		if (rs < 0)
 			return (sfree(cur));
 		cur = append(cur, buf);
